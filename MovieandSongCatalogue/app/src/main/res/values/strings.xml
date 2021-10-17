@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Movie and Song Catalogue</string>
+
+    <!-- Strings used for fragments for navigation -->
+    <string name="title_home">Home</string>
+    <string name="title_search">Search</string>
+    <string name="title_settings">Settings</string>
+
+</resources>
