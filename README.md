@@ -1,4 +1,4 @@
-# Movie-and-Song-Catalogue
+# Media-Catalogue
 Callum Mcintosh (2105346) 16/10/2021 Mobile App Development Coursework
 
 # About This App 
