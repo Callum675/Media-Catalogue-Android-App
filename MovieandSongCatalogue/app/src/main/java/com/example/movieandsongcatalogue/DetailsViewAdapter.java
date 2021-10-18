@@ -1,5 +1,6 @@
 package com.example.movieandsongcatalogue;
 
+
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -13,37 +14,50 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-import com.example.movieandsongcatalogue.data.Details;
+import com.example.movieandsongcatalogue.data.Detail;
 
-public class DetailsViewAdapter extends RecyclerView.Adapter<DetailsViewAdapter.DetailsViewHolder> {
+public class DetailsViewAdapter
+        extends RecyclerView.Adapter<DetailsViewAdapter.DetailsViewHolder> {
 
-    //member variables
+    // Names of Extras used for passing data from this Activity in an Intent
+    public final static String EXTRA_DETAIL_NAME = "com.example.movieandsongcatalogue.DETAIL_NAME";
+    public final static String EXTRA_DETAIL_DESCRIPTION = "com.example.movieandsongcatalogue.DETAIL_DESCRIPTION";
+
+
+    // member variables for the context the adapter is working in
     private Context context;
-    //data
-    private List<Details> details;
+    // the data thats going to be displayed
+    private List<Detail> details;
 
-    public DetailsViewAdapter(Context context, List<Details> details){
+    /**
+     * Creates a new {@link DetailsViewAdapter}
+     * @param context that the adapter is working in
+     * @param details data to be displayed
+     */
+    public DetailsViewAdapter(Context context, List<Detail> details){
         super();
+        // initialise the member variables
         this.context = context;
         this.details = details;
     }
 
+
     @NonNull
     @Override
     public DetailsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View detailsView = LayoutInflater.from(context).inflate(R.layout.data_view_layout, parent, false );
-        DetailsViewHolder viewHolder = new DetailsViewHolder(detailsView, this);
+        View itemView = LayoutInflater.from(context).inflate(R.layout.data_view_layout, parent, false);
+        DetailsViewHolder viewHolder = new DetailsViewHolder(itemView, this);
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull DetailsViewHolder holder, int position) {
-        //get item at position
-        Details details = this.details.get(position);
+        // get the task at position
+        Detail detail = this.details.get(position);
 
-        //update Title
-        TextView lblDataTitle = holder.detailsView.findViewById(R.id.lblDataTitle);
-        lblDataTitle.setText(details.getName());
+        // update the title
+        TextView lblDataTitle = holder.detailItemView.findViewById(R.id.lblDataTitle);
+        lblDataTitle.setText(detail.getName());
     }
 
     @Override
@@ -51,16 +65,19 @@ public class DetailsViewAdapter extends RecyclerView.Adapter<DetailsViewAdapter.
         return this.details.size();
     }
 
-    //View holder for Recycler view
-     class DetailsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private View detailsView;
+    /**
+     * ViewHolder for the RecyclerView that's going to display Tasks
+     */
+    class DetailsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        private View detailItemView;
         private DetailsViewAdapter adapter;
 
-        public DetailsViewHolder(View detailsView, DetailsViewAdapter adapter){
-            super (detailsView);
-            this.detailsView = detailsView;
+        public DetailsViewHolder(View detailItemVew, DetailsViewAdapter adapter) {
+            super(detailItemVew);
+            this.detailItemView = detailItemVew;
             this.adapter = adapter;
-            this.detailsView.findViewById(R.id.btnDetails).setOnClickListener(this);
+            // add a listener to the button in the taskItemView
+            detailItemVew.findViewById(R.id.btnDetails).setOnClickListener(this);
         }
 
         @Override
@@ -69,11 +86,9 @@ public class DetailsViewAdapter extends RecyclerView.Adapter<DetailsViewAdapter.
             int position = getAdapterPosition();
 
             // get the task at that position
-            Details detail = details.get(position);
+            Detail detail = details.get(position);
 
-            //do things
-            Log.d("TASK_RECYCLER", "user clicked on item " + detail.getName());
-
+            Log.d("DETAILS_RECYCLER", "user clicked on item " + detail.getName());
         }
     }
 }

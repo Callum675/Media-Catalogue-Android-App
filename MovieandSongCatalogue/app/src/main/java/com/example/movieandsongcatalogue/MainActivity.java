@@ -12,7 +12,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-import com.example.movieandsongcatalogue.data.Details;
+import com.example.movieandsongcatalogue.data.Detail;
 import com.example.movieandsongcatalogue.data.DetailsRepository;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
         bnv.setOnItemSelectedListener(this);
 
         // create 100 item list for testing
-        List<Details> details = DetailsRepository.getRepository(getApplicationContext()).getDetails(100);
+        List<Detail> details = DetailsRepository.getRepository(getApplicationContext()).getDetail(100);
 
         // get the RecyclerView on the UI
         RecyclerView recyclerView = findViewById(R.id.rv_DetailsView);
