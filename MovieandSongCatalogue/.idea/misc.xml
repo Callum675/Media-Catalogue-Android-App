@@ -4,9 +4,12 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/me/AndroidStudioProjects/Coursework/MovieandSongCatalogue/app/src/main/res/layout/activity_main.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/me/AndroidStudioProjects/Coursework/MovieandSongCatalogue/app/src/main/res/layout/activity_view_details.xml" value="0.35144927536231885" />
         <entry key="..\:/Users/me/AndroidStudioProjects/Coursework/MovieandSongCatalogue/app/src/main/res/layout/data_view_layout.xml" value="0.5" />
         <entry key="..\:/Users/me/AndroidStudioProjects/Coursework/MovieandSongCatalogue/app/src/main/res/layout/fragment_details.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/me/AndroidStudioProjects/Coursework/MovieandSongCatalogue/app/src/main/res/layout/fragment_home.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/me/AndroidStudioProjects/Coursework/MovieandSongCatalogue/app/src/main/res/layout/fragment_search.xml" value="0.33" />
+        <entry key="..\:/Users/me/AndroidStudioProjects/Coursework/MovieandSongCatalogue/app/src/main/res/layout/fragment_settings.xml" value="0.35144927536231885" />
         <entry key="..\:/Users/me/AndroidStudioProjects/MovieandSongCatalogue/app/src/main/res/drawable/ic_home_black_24dp.xml" value="0.3828125" />
         <entry key="..\:/Users/me/AndroidStudioProjects/MovieandSongCatalogue/app/src/main/res/layout/activity_details.xml" value="0.2957427536231884" />
         <entry key="..\:/Users/me/AndroidStudioProjects/MovieandSongCatalogue/app/src/main/res/layout/activity_main.xml" value="0.2957427536231884" />

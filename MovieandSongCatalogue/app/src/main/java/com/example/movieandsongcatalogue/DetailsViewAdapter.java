@@ -82,13 +82,32 @@ public class DetailsViewAdapter
 
         @Override
         public void onClick(View view) {
-            // get the clicked item's position
             int position = getAdapterPosition();
 
             // get the task at that position
             Detail detail = details.get(position);
 
-            Log.d("DETAILS_RECYCLER", "user clicked on item " + detail.getName());
+            if (view.getId() == R.id.btnDetails) {
+                // Create the Intent using this application context
+                // and the Class of the activity to launch
+                Intent intent = new Intent(context, ViewDetails.class);
+//                intent.putExtra("TASK", task);
+
+                // Add details of the task to be displayed as extras
+                intent.putExtra(EXTRA_DETAIL_NAME, detail.getName());
+                intent.putExtra(EXTRA_DETAIL_DESCRIPTION, detail.getDescription());
+                // The following line is ONLY needed when not starting another Activity from an
+                // Activity (we're in TaskRecyclerViewAdapter.java here, not TaskRecyclerViewActivity.java
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                // Start the Activity - here we use the context to do this, again, this is not
+                // required if starting an Activity from an Activity.
+                context.startActivity(intent);
+            }
+
+
+            else {
+                Log.d("TASK_RECYCLER", "user clicked on item " + detail.getName());
+            }
         }
     }
 }
