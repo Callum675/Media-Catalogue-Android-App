@@ -10,6 +10,6 @@ App plan is located in App Plan.docx
 # Testing
 Testing is located in Testing.docx
 
-#References
+# References
 Google. (2020). Google Knowledge Graph Search API. Available: https://developers.google.com/knowledge-graph. Last accessed 21/10/2021.
 David Corsar. (2021). Mobile App Development (Adapted Code). Available: https://github.com/WorkAtRGU/CM3110-2020-RGTodU.git.
