@@ -43,15 +43,15 @@ public class DetailsRepository {
      * @return
      */
     public List<Detail> getDetail(int number){
-        List<Detail> tasks = new ArrayList<>(number);
+        List<Detail> details = new ArrayList<>(number);
         for (int i = 0; i < number; i++){
             Detail d = getDetail();
             if (i == 4){
                 d.setName("Task 6376");
             }
-            tasks.add(d);
+            details.add(d);
         }
-        return tasks;
+        return details;
     }
 
     /**

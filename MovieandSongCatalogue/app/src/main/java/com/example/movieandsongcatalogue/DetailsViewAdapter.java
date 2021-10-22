@@ -106,7 +106,7 @@ public class DetailsViewAdapter
 
 
             else {
-                Log.d("TASK_RECYCLER", "user clicked on item " + detail.getName());
+                Log.d("DETAILS", "user clicked on item " + detail.getName());
             }
         }
     }

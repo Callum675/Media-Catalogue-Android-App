@@ -3,6 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/2105346/StudioProjects/cm3110-coursework-Callum675/MovieandSongCatalogue/app/src/main/res/layout/activity_view_details.xml" value="0.35260416666666666" />
+        <entry key="..\:/Users/2105346/StudioProjects/cm3110-coursework-Callum675/MovieandSongCatalogue/app/src/main/res/layout/fragment_details.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/2105346/StudioProjects/cm3110-coursework-Callum675/MovieandSongCatalogue/app/src/main/res/layout/fragment_view_details.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/2105346/StudioProjects/cm3110-coursework-Callum675/MovieandSongCatalogue/app/src/main/res/layout/viewdetails.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/me/AndroidStudioProjects/Coursework/MovieandSongCatalogue/app/src/main/res/layout/activity_main.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/me/AndroidStudioProjects/Coursework/MovieandSongCatalogue/app/src/main/res/layout/activity_view_details.xml" value="0.35144927536231885" />
         <entry key="..\:/Users/me/AndroidStudioProjects/Coursework/MovieandSongCatalogue/app/src/main/res/layout/data_view_layout.xml" value="0.5" />
