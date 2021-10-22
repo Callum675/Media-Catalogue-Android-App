@@ -28,18 +28,6 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
 
         BottomNavigationView bnv = findViewById(R.id.bottomNavigationView);
         bnv.setOnItemSelectedListener(this);
-
-        // create 100 item list for testing
-        List<Detail> details = DetailsRepository.getRepository(getApplicationContext()).getDetail(100);
-
-        // get the RecyclerView on the UI
-        RecyclerView recyclerView = findViewById(R.id.rv_DetailsView);
-        // create a new Adapter for the Tasks
-        RecyclerView.Adapter adapter = new DetailsViewAdapter(getApplicationContext(), details);
-        // set the recycler view's adapter
-        recyclerView.setAdapter(adapter);
-        // setup the layout manager on the recycler view
-        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
     }
 
     @Override
