@@ -66,7 +66,7 @@ public class DetailsViewAdapter
     }
 
     /**
-     * ViewHolder for the RecyclerView that's going to display Tasks
+     * ViewHolder for the RecyclerView that's going to display data
      */
     class DetailsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private View detailItemView;

@@ -7,16 +7,17 @@ android:layout_height="match_parent"
 tools:context=".SearchFragment">
 
     <EditText
-    android:id="@+id/etSearch"
-    android:layout_width="0dp"
-    android:layout_height="wrap_content"
-    android:layout_marginStart="8dp"
-    android:ems="10"
-    android:inputType="textPersonName"
-    app:layout_constraintEnd_toStartOf="@+id/btnSearch"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/lblSearch"
-    tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+        android:id="@+id/etSearch"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="@string/title_search"
+        app:layout_constraintEnd_toStartOf="@+id/btnSearch"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lblSearch"
+        tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
 
 <TextView
     android:id="@+id/lblSearch"

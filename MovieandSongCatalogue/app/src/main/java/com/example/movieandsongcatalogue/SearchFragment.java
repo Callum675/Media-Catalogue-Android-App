@@ -9,6 +9,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+
+import com.example.movieandsongcatalogue.data.Search;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -65,8 +68,18 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
         Button btnSearch = view.findViewById(R.id.btnSearch);
         btnSearch.setOnClickListener(this);
         return view;
-
     }
+
+    //knowledge graph
+    public void search(View view) {
+        //get etSearch
+        EditText etSearch = view.findViewById(R.id.etSearch);
+        //get data
+        Search.setSearch(etSearch.getText().toString());
+    }
+
+    //https://kgsearch.googleapis.com/v1/entities:search?query=taylor+swift&key=AIzaSyCwrrmmDV2H4M5RzLnqfU80ZMn0gHcSaV4&limit=1&indent=True
+
 
     @Override
     public void onClick(View v) {

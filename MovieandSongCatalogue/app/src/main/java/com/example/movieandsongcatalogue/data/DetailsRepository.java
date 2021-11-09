@@ -47,7 +47,7 @@ public class DetailsRepository {
         for (int i = 0; i < number; i++){
             Detail d = getDetail();
             if (i == 4){
-                d.setName("Task 6376");
+                d.setName("Movie 6376");
             }
             details.add(d);
         }
@@ -67,7 +67,7 @@ public class DetailsRepository {
 
         int id = random.nextInt(100);
         // set the name randomly
-        d.setName(String.format("Task %s", id));
+        d.setName(String.format("Movie %s", id));
 
         // set the description to some placeholder
         d.setDescription("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.");
