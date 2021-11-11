@@ -1,16 +1,26 @@
 package com.example.movieandsongcatalogue;
 
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.movieandsongcatalogue.data.Search;
 
 /**
@@ -19,6 +29,8 @@ import com.example.movieandsongcatalogue.data.Search;
  * create an instance of this fragment.
  */
 public class SearchFragment extends Fragment implements View.OnClickListener {
+
+    private static final String TAG = "SearchFragment";
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -70,20 +82,42 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
         return view;
     }
 
-    //knowledge graph
-    public void search(View view) {
-        //get etSearch
-        EditText etSearch = view.findViewById(R.id.etSearch);
-        //get data
-        Search.setSearch(etSearch.getText().toString());
-    }
-
-    //https://kgsearch.googleapis.com/v1/entities:search?query=taylor+swift&key=AIzaSyCwrrmmDV2H4M5RzLnqfU80ZMn0gHcSaV4&limit=1&indent=True
-
-
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.btnSearch) {
+            //get value of search
+            String searchName = String.valueOf(((TextView)v.findViewById(R.id.etSearch)).getText());
+            Search search = new Search();
+            search.setSearch(searchName);
+
+            //build uri
+            Uri uri = Uri.parse("https://kgsearch.googleapis.com/v1/entities:search?query=");
+            String parameters = "&key=AIzaSyCwrrmmDV2H4M5RzLnqfU80ZMn0gHcSaV4&limit=1&indent=True&types=Movie&types=Book&types=MusicRecording";
+            Uri.Builder uriBuilder = uri.buildUpon();
+            uriBuilder.appendQueryParameter("q", searchName);
+            uriBuilder.appendQueryParameter("p", parameters);
+            //create final uri
+            uri = uriBuilder.build();
+
+            //volley request
+            StringRequest request = new StringRequest(Request.Method.GET, uri.toString(), new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    Log.d(TAG, response);
+
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(getActivity().getApplicationContext(), getString(R.string.search_download_error), Toast.LENGTH_LONG);
+                    Log.e(TAG, error.getLocalizedMessage());
+                }
+            });
+            //request queue
+            RequestQueue queue = Volley.newRequestQueue(getContext());
+            queue.add(request);
+
+
             Navigation.findNavController(v).navigate(R.id.action_searchFragment_to_detailsFragment);
         }
     }
