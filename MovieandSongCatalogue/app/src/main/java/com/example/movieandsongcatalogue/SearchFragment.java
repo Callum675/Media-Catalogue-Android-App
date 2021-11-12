@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import android.text.Editable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -85,40 +86,52 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.btnSearch) {
-            //get value of search
-            String searchName = String.valueOf(((TextView)v.findViewById(R.id.etSearch)).getText());
-            Search search = new Search();
-            search.setSearch(searchName);
+            String searchName = String.valueOf(((TextView)getView().findViewById(R.id.etSearch)).getText());
+            if (searchName.matches("")) {
+                Toast.makeText(getActivity().getApplicationContext(), "Your Search is Empty", Toast.LENGTH_SHORT).show();
+                return;
+            } else {
+                //get value of search
+                Search search = new Search();
+                search.setSearch(searchName);
 
-            //build uri
-            Uri uri = Uri.parse("https://kgsearch.googleapis.com/v1/entities:search?query=");
-            String parameters = "&key=AIzaSyCwrrmmDV2H4M5RzLnqfU80ZMn0gHcSaV4&limit=1&indent=True&types=Movie&types=Book&types=MusicRecording";
-            Uri.Builder uriBuilder = uri.buildUpon();
-            uriBuilder.appendQueryParameter("q", searchName);
-            uriBuilder.appendQueryParameter("p", parameters);
-            //create final uri
-            uri = uriBuilder.build();
+                //build uri
+                Uri uri = Uri.parse("https://kgsearch.googleapis.com/v1/entities:search?query=");
+                String key = "AIzaSyC_J8waxKsPEFdofdd2FnKBHLY29BMPPcU";
+                String limit = "1";
+                String tmovie = "Movie";
+                String tbook = "Book";
+                String tmusic = "MusicRecording";
+                Uri.Builder uriBuilder = uri.buildUpon();
+                uriBuilder.appendQueryParameter("query", searchName);
+                uriBuilder.appendQueryParameter("key", key);
+                uriBuilder.appendQueryParameter("limit", limit);
+                uriBuilder.appendQueryParameter("types", tmovie);
+                uriBuilder.appendQueryParameter("types", tbook);
+                uriBuilder.appendQueryParameter("types", tmusic);
+                //create final uri
+                uri = uriBuilder.build();
 
-            //volley request
-            StringRequest request = new StringRequest(Request.Method.GET, uri.toString(), new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
-                    Log.d(TAG, response);
+                //volley request
+                StringRequest request = new StringRequest(Request.Method.GET, uri.toString(), new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d(TAG, response);
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getActivity().getApplicationContext(), getString(R.string.search_download_error), Toast.LENGTH_LONG);
+                        Log.e(TAG, error.getLocalizedMessage());
+                    }
+                });
+                //request queue
+                RequestQueue queue = Volley.newRequestQueue(getContext());
+                queue.add(request);
 
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Toast.makeText(getActivity().getApplicationContext(), getString(R.string.search_download_error), Toast.LENGTH_LONG);
-                    Log.e(TAG, error.getLocalizedMessage());
-                }
-            });
-            //request queue
-            RequestQueue queue = Volley.newRequestQueue(getContext());
-            queue.add(request);
 
-
-            Navigation.findNavController(v).navigate(R.id.action_searchFragment_to_detailsFragment);
+                Navigation.findNavController(v).navigate(R.id.action_searchFragment_to_detailsFragment);
+            }
         }
     }
 }
