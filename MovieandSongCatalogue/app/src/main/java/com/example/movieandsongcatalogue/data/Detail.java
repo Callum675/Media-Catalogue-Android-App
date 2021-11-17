@@ -3,7 +3,11 @@ package com.example.movieandsongcatalogue.data;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
+@Entity(tableName = "Detail")
 public class Detail implements Parcelable {
     //to string method
     @Override
@@ -16,6 +20,10 @@ public class Detail implements Parcelable {
 
     private String name;
     private String description;
+
+    @NonNull
+    @PrimaryKey(autoGenerate = true)
+    private int uid;
 
     //getters
     public String getName() {

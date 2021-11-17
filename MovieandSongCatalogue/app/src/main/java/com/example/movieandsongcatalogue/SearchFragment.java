@@ -4,15 +4,14 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.Navigation;
 
-import android.text.Editable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +22,11 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.movieandsongcatalogue.data.Search;
+import com.google.android.gms.common.data.DataHolder;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -91,12 +95,8 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
                 Toast.makeText(getActivity().getApplicationContext(), "Your Search is Empty", Toast.LENGTH_SHORT).show();
                 return;
             } else {
-                //get value of search
-                Search search = new Search();
-                search.setSearch(searchName);
-
                 //build uri
-                Uri uri = Uri.parse("https://kgsearch.googleapis.com/v1/entities:search?query=");
+                Uri uri = Uri.parse("https://kgsearch.googleapis.com/v1/entities:search?");
                 String key = "AIzaSyC_J8waxKsPEFdofdd2FnKBHLY29BMPPcU";
                 String limit = "1";
                 String tmovie = "Movie";
@@ -117,6 +117,43 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
                     @Override
                     public void onResponse(String response) {
                         Log.d(TAG, response);
+                        //process data
+                        //interested in result>name, detailedDescription>articleBody, url
+                        try{
+                            JSONObject rootObject = new JSONObject(response);
+                            JSONArray listarray = rootObject.getJSONArray("itemListElement");
+                            for(int i=0, j = listarray.length(); i < j; i++){
+                                JSONObject listIndex = listarray.getJSONObject(i);
+                                JSONObject resultObj = listIndex.getJSONObject("result");
+                                String name = resultObj.getString("name");
+                                JSONObject descriptionObj = resultObj.getJSONObject("detailedDescription");
+                                String description = descriptionObj.getString("articleBody");
+                                String link = descriptionObj.getString("url");
+
+                                //logs for testing
+                                Log.d(TAG, name);
+                                Log.d(TAG, description);
+                                Log.d(TAG, link);
+
+                                //giving values to search object
+                                Search search = new Search();
+                                search.setSearch(name);
+                                search.setSearchDescription(description);
+                                search.setSearchLink(link);
+
+                                //displaying data
+                                TextView lblResult = (TextView) getView().findViewById(R.id.lblResult);
+                                lblResult.setText(getString(R.string.search_name) + " " + search.getSearch());
+
+                                TextView lblDescription = (TextView) getView().findViewById(R.id.lblResultDescription);
+                                lblDescription.setText(getString(R.string.search_description) + " " + search.getSearchDescription());
+
+                                TextView lbllink = (TextView) getView().findViewById(R.id.lblLink);
+                                lbllink.setText(getString(R.string.search_link) + " " + search.getLink());
+                            }
+                        }catch(JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }, new Response.ErrorListener() {
                     @Override
@@ -128,10 +165,10 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
                 //request queue
                 RequestQueue queue = Volley.newRequestQueue(getContext());
                 queue.add(request);
-
-
-                Navigation.findNavController(v).navigate(R.id.action_searchFragment_to_detailsFragment);
             }
+        }
+        else if (v.getId() == R.id.btnSave) {
+
         }
     }
 }

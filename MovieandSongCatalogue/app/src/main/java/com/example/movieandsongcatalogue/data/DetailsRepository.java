@@ -10,7 +10,6 @@ import java.util.Random;
 
 public class DetailsRepository {
 
-
     /**
      * The Singleton instance for this repository
      */
