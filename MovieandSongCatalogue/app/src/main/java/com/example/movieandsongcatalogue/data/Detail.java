@@ -20,6 +20,7 @@ public class Detail implements Parcelable {
 
     private String name;
     private String description;
+    private String link;
 
     @NonNull
     @PrimaryKey(autoGenerate = true)
@@ -32,11 +33,20 @@ public class Detail implements Parcelable {
     public String getDescription() {
         return description;
     }
+    public String getLink() {
+        return link;
+    }
+
+    public int getUid() { return uid; }
 
     //setters
     public void setName(String name) { this.name = name; }
 
     public void setDescription(String description) { this.description = description; }
+
+    public void setLink(String link) { this.link = link; }
+
+    public void setUid(int uid) { this.uid = uid; }
 
     @Override
     public int describeContents() {

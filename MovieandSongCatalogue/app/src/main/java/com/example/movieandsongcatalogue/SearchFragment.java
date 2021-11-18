@@ -4,8 +4,6 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.Navigation;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,8 +19,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.movieandsongcatalogue.data.Search;
-import com.google.android.gms.common.data.DataHolder;
+import com.example.movieandsongcatalogue.data.Detail;
+import com.example.movieandsongcatalogue.data.DetailDAO;
+import com.example.movieandsongcatalogue.data.DetailDatabase;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -89,6 +88,7 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
+        Detail detail = new Detail();
         if (v.getId() == R.id.btnSearch) {
             String searchName = String.valueOf(((TextView)getView().findViewById(R.id.etSearch)).getText());
             if (searchName.matches("")) {
@@ -136,20 +136,19 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
                                 Log.d(TAG, link);
 
                                 //giving values to search object
-                                Search search = new Search();
-                                search.setSearch(name);
-                                search.setSearchDescription(description);
-                                search.setSearchLink(link);
+                                detail.setName(name);
+                                detail.setDescription(description);
+                                detail.setLink(link);
 
                                 //displaying data
                                 TextView lblResult = (TextView) getView().findViewById(R.id.lblResult);
-                                lblResult.setText(getString(R.string.search_name) + " " + search.getSearch());
+                                lblResult.setText(getString(R.string.search_name) + " " + detail.getName());
 
                                 TextView lblDescription = (TextView) getView().findViewById(R.id.lblResultDescription);
-                                lblDescription.setText(getString(R.string.search_description) + " " + search.getSearchDescription());
+                                lblDescription.setText(getString(R.string.search_description) + " " + detail.getDescription());
 
                                 TextView lbllink = (TextView) getView().findViewById(R.id.lblLink);
-                                lbllink.setText(getString(R.string.search_link) + " " + search.getLink());
+                                lbllink.setText(getString(R.string.search_link) + " " + detail.getLink());
                             }
                         }catch(JSONException e) {
                             e.printStackTrace();
@@ -168,7 +167,14 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
             }
         }
         else if (v.getId() == R.id.btnSave) {
-
+            if (detail != null) {
+                //getting database
+                DetailDatabase detailDatabase = DetailDatabase.getDatabase(getContext());
+                //getting DAO
+                DetailDAO detailDAO = detailDatabase.detailDAO();
+                //store detail
+                detailDAO.insert(detail);
+            }
         }
     }
 }
