@@ -167,11 +167,16 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
             }
         }
         else if (v.getId() == R.id.btnSave) {
-            if (detail != null) {
+            if (detail == null) {
+                Toast.makeText(getActivity().getApplicationContext(), "Your Search is Empty can`t save", Toast.LENGTH_SHORT).show();
+                return;
+            } else{
+                //log for texting
+                Log.d(TAG, "onClick: btnSave was pressed");
                 //getting database
-                DetailDatabase detailDatabase = DetailDatabase.getDatabase(getContext());
+                DetailDatabase db = DetailDatabase.getDatabase(getContext());
                 //getting DAO
-                DetailDAO detailDAO = detailDatabase.detailDAO();
+                DetailDAO detailDAO = db.detailDAO();
                 //store detail
                 detailDAO.insert(detail);
             }

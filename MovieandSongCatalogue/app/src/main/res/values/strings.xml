@@ -13,4 +13,11 @@
     <string name="search_link">link: </string>
     <string name="Result_Save">Save</string>
 
+    <string name="Detailed_description">Description: </string>
+    <string name="info_link">Link: </string>
+    <string name="note">Note</string>
+
+    <string name="nightMode">Night Mode</string>
+
+
 </resources>

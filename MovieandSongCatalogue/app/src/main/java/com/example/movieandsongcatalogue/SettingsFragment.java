@@ -1,12 +1,20 @@
 package com.example.movieandsongcatalogue;
 
+import static android.content.Context.UI_MODE_SERVICE;
+
+import static androidx.core.content.ContextCompat.getSystemService;
+
+import android.app.UiModeManager;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Switch;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -46,19 +54,32 @@ public class SettingsFragment extends Fragment {
         return fragment;
     }
 
+    private Button btnNightMode;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_settings, container, false);
+        View v = inflater.inflate(R.layout.fragment_settings, container, false);
+        btnNightMode = getView().findViewById(R.id.btnNightMode);
+
+        btnNightMode.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view)
+                    {
+                        AppCompatDelegate
+                                .setDefaultNightMode(
+                                        AppCompatDelegate
+                                                .MODE_NIGHT_YES);
+                    }
+                });
+        return v;
     }
+
 }

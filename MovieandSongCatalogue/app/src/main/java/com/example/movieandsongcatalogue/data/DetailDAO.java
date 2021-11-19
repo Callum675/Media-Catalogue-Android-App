@@ -27,5 +27,7 @@ public interface DetailDAO {
     @Query("SELECT * FROM Detail WHERE name = :name")
     public List<Detail> findByName(String name);
 
+    @Query("SELECT * FROM Detail")
+    List<Detail> getAll();
 
 }

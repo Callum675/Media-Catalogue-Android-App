@@ -18,10 +18,12 @@ public class Detail implements Parcelable {
                 '}';
     }
 
-    private String name;
-    private String description;
-    private String link;
+    private String name; //name of media
+    private String description; //description of media
+    private String link; //link to more information
+    private String note; //String for holding user notes
 
+    //database id
     @NonNull
     @PrimaryKey(autoGenerate = true)
     private int uid;
@@ -36,7 +38,7 @@ public class Detail implements Parcelable {
     public String getLink() {
         return link;
     }
-
+    public String getNote() { return note; }
     public int getUid() { return uid; }
 
     //setters
@@ -45,6 +47,8 @@ public class Detail implements Parcelable {
     public void setDescription(String description) { this.description = description; }
 
     public void setLink(String link) { this.link = link; }
+
+    public void setNote(String note) { this.note = note; }
 
     public void setUid(int uid) { this.uid = uid; }
 
