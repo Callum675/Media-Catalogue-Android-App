@@ -2,11 +2,16 @@ package com.example.movieandsongcatalogue;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.AlarmClock;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -27,6 +32,9 @@ public class ViewDetails extends AppCompatActivity implements View.OnClickListen
     private static final String KEY_DETAIL_NAME = "name";
     private static final String KEY_DETAIL_DESCRIPTION = "description";
     private static final String KEY_DETAIL_LINK = "link";
+    private static final String KEY_DETAIL_NOTE = "note";
+
+    private static final String EXTRA_DETAIL_NOTENAME = "com.example.movieandsongcatalogue.DETAIL_NAME";
 
     private Detail detail;
 
@@ -42,7 +50,7 @@ public class ViewDetails extends AppCompatActivity implements View.OnClickListen
         Button btnEdit = findViewById(R.id.btnEditNote);
         btnEdit.setOnClickListener(this);
 
-        //  Check the Intent that launched this Activity
+        //Check the Intent that launched this Activity
         Intent launcher = getIntent();
         // Check if there there details of the Task to be displayed?
         if (launcher.hasExtra(DetailsViewAdapter.EXTRA_DETAIL_NAME)) {
@@ -51,6 +59,7 @@ public class ViewDetails extends AppCompatActivity implements View.OnClickListen
             detail.setName(launcher.getStringExtra(DetailsViewAdapter.EXTRA_DETAIL_NAME));
             detail.setDescription(launcher.getStringExtra(DetailsViewAdapter.EXTRA_DETAIL_DESCRIPTION));
             detail.setLink(launcher.getStringExtra(DetailsViewAdapter.EXTRA_DETAIL_LINK));
+            detail.setNote(launcher.getStringExtra(DetailsViewAdapter.EXTRA_DETAIL_NOTE));
         }
         else if (savedInstanceState != null) {
                 // recreate the task
@@ -58,6 +67,7 @@ public class ViewDetails extends AppCompatActivity implements View.OnClickListen
                 detail.setName(savedInstanceState.getString(KEY_DETAIL_NAME));
                 detail.setDescription(savedInstanceState.getString(KEY_DETAIL_DESCRIPTION));
                 detail.setLink(savedInstanceState.getString(KEY_DETAIL_LINK));
+                detail.setNote(savedInstanceState.getString(KEY_DETAIL_NOTE));
             }
         else {
                 detail = DetailsRepository.getRepository(getApplicationContext()).getDetail();
@@ -69,10 +79,11 @@ public class ViewDetails extends AppCompatActivity implements View.OnClickListen
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        // store all the details of the task
+        // store all the details
         outState.putString(KEY_DETAIL_NAME, detail.getName());
         outState.putString(KEY_DETAIL_DESCRIPTION, detail.getDescription());
         outState.putString(KEY_DETAIL_LINK, detail.getLink());
+        outState.putString(KEY_DETAIL_NOTE, detail.getNote());
     }
 
     /**
@@ -92,13 +103,13 @@ public class ViewDetails extends AppCompatActivity implements View.OnClickListen
         TextView link = findViewById(R.id.lblMediaLink);
         link.setText(detail.getLink());
 
+        TextView note = findViewById(R.id.lblMediaNote);
+        note.setText(detail.getNote());
         }
 
 
     @Override
-    protected void onStart() {
-        super.onStart();
-    }
+    protected void onStart() { super.onStart(); }
 
     @Override
     protected void onStop() {
@@ -106,19 +117,13 @@ public class ViewDetails extends AppCompatActivity implements View.OnClickListen
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
+    protected void onDestroy() { super.onDestroy(); }
 
     @Override
-    protected void onPause() {
-        super.onPause();
-    }
+    protected void onPause() { super.onPause(); }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-    }
+    protected void onResume() { super.onResume(); }
 
     @Override
     public void onClick(View v) {
@@ -134,8 +139,14 @@ public class ViewDetails extends AppCompatActivity implements View.OnClickListen
             detailDAO.deleteByName(detail.getName());
             //informing user
             Toast.makeText(getApplicationContext(), detail.getName() + " was deleted", Toast.LENGTH_LONG).show();
+            //end activity
+            finish();
         }else if (v.getId() == R.id.btnEditNote) {
-
+            //navigate to editNote activity
+            Intent i = new Intent(getApplicationContext(), EditNote.class);
+            i.putExtra(EXTRA_DETAIL_NOTENAME, detail.getName());
+            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(i);
         }
     }
 }

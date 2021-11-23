@@ -147,7 +147,7 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
             }
         }
         else if (v.getId() == R.id.btnSave) {
-            //log for texting
+            //log for testing
             Log.d(TAG, "onClick: btnSave was pressed");
             //getting database
             DetailDatabase db = DetailDatabase.getDatabase(getContext());

@@ -39,4 +39,8 @@ public interface DetailDAO {
     //get all data
     @Query("SELECT * FROM Detail")
     List<Detail> getAll();
+
+    //update note by name
+    @Query("UPDATE Detail SET note = :newNote WHERE name = :Name")
+    int updateNote(String newNote, String Name);
 }

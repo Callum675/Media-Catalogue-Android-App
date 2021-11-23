@@ -23,6 +23,7 @@ public class DetailsViewAdapter
     public final static String EXTRA_DETAIL_NAME = "com.example.movieandsongcatalogue.DETAIL_NAME";
     public final static String EXTRA_DETAIL_DESCRIPTION = "com.example.movieandsongcatalogue.DETAIL_DESCRIPTION";
     public final static String EXTRA_DETAIL_LINK = "com.example.movieandsongcatalogue.DETAIL_LINK";
+    public final static String EXTRA_DETAIL_NOTE = "com.example.movieandsongcatalogue.DETAIL_NOTE";
 
 
     // member variables for the context the adapter is working in
@@ -53,7 +54,7 @@ public class DetailsViewAdapter
 
     @Override
     public void onBindViewHolder(@NonNull DetailsViewHolder holder, int position) {
-        // get the task at position
+        // get the detail at position
         Detail detail = this.details.get(position);
 
         // update the title
@@ -77,7 +78,7 @@ public class DetailsViewAdapter
             super(detailItemVew);
             this.detailItemView = detailItemVew;
             this.adapter = adapter;
-            // add a listener to the button in the taskItemView
+            // add a listener to the button
             detailItemVew.findViewById(R.id.btnDetails).setOnClickListener(this);
         }
 
@@ -85,24 +86,20 @@ public class DetailsViewAdapter
         public void onClick(View view) {
             int position = getAdapterPosition();
 
-            // get the task at that position
+            // get detail at that position
             Detail detail = details.get(position);
 
             if (view.getId() == R.id.btnDetails) {
-                // Create the Intent using this application context
-                // and the Class of the activity to launch
+                // Create the Intent using this application context and the Class of the activity to launch
                 Intent intent = new Intent(context, ViewDetails.class);
-//                intent.putExtra("TASK", task);
 
-                // Add details of the task to be displayed as extras
+                // Add details to be displayed as extras
                 intent.putExtra(EXTRA_DETAIL_NAME, detail.getName());
                 intent.putExtra(EXTRA_DETAIL_DESCRIPTION, detail.getDescription());
                 intent.putExtra(EXTRA_DETAIL_LINK, detail.getLink());
-                // The following line is ONLY needed when not starting another Activity from an
-                // Activity (we're in TaskRecyclerViewAdapter.java here, not TaskRecyclerViewActivity.java
+                intent.putExtra(EXTRA_DETAIL_NOTE, detail.getNote());
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                // Start the Activity - here we use the context to do this, again, this is not
-                // required if starting an Activity from an Activity.
+                // Start the Activity
                 context.startActivity(intent);
             }
 
