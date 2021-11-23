@@ -65,6 +65,7 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.btnSearch) {
+            //checking if search is empty
             String searchName = String.valueOf(((TextView)getView().findViewById(R.id.etSearch)).getText());
             if (searchName.matches("")) {
                 Toast.makeText(getActivity().getApplicationContext(), "Your Search is Empty", Toast.LENGTH_SHORT).show();
@@ -160,17 +161,18 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
             detail.setLink(saveLink);
             //log for testing
             Log.d(TAG, String.valueOf(detail));
+            Log.d(TAG, String.valueOf(detailDAO.getAll()));
 
 
             //storing data
             //checking if data exists
-
-            if (detailDAO.getAll().contains(saveName)) {
+            if (String.valueOf(detailDAO.getAll()).contains(saveName)) {
                 //informing user
-                Toast.makeText(getActivity().getApplicationContext(), saveName + "is already saved", Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity().getApplicationContext(), saveName + " is already saved", Toast.LENGTH_LONG).show();
                 return;
             }
             else if (saveName == null){
+                //informing user
                 Toast.makeText(getActivity().getApplicationContext(), "please search before saving", Toast.LENGTH_LONG).show();
                 return;
             }

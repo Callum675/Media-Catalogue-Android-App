@@ -6,20 +6,27 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.AlarmClock;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.movieandsongcatalogue.data.Detail;
+import com.example.movieandsongcatalogue.data.DetailDAO;
+import com.example.movieandsongcatalogue.data.DetailDatabase;
 import com.example.movieandsongcatalogue.data.DetailsRepository;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
-public class ViewDetails extends AppCompatActivity {
+public class ViewDetails extends AppCompatActivity implements View.OnClickListener {
+
+    private static final String TAG = "View Details";
 
     private static final String KEY_DETAIL_NAME = "name";
     private static final String KEY_DETAIL_DESCRIPTION = "description";
+    private static final String KEY_DETAIL_LINK = "link";
 
     private Detail detail;
 
@@ -27,6 +34,13 @@ public class ViewDetails extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_details);
+
+        //btnDelete
+        Button btnDelete = findViewById(R.id.btnDeleteNote);
+        btnDelete.setOnClickListener(this);
+        //btnEdit
+        Button btnEdit = findViewById(R.id.btnEditNote);
+        btnEdit.setOnClickListener(this);
 
         //  Check the Intent that launched this Activity
         Intent launcher = getIntent();
@@ -36,12 +50,14 @@ public class ViewDetails extends AppCompatActivity {
             detail = new Detail();
             detail.setName(launcher.getStringExtra(DetailsViewAdapter.EXTRA_DETAIL_NAME));
             detail.setDescription(launcher.getStringExtra(DetailsViewAdapter.EXTRA_DETAIL_DESCRIPTION));
+            detail.setLink(launcher.getStringExtra(DetailsViewAdapter.EXTRA_DETAIL_LINK));
         }
         else if (savedInstanceState != null) {
                 // recreate the task
                 detail = new Detail();
                 detail.setName(savedInstanceState.getString(KEY_DETAIL_NAME));
                 detail.setDescription(savedInstanceState.getString(KEY_DETAIL_DESCRIPTION));
+                detail.setLink(savedInstanceState.getString(KEY_DETAIL_LINK));
             }
         else {
                 detail = DetailsRepository.getRepository(getApplicationContext()).getDetail();
@@ -56,7 +72,7 @@ public class ViewDetails extends AppCompatActivity {
         // store all the details of the task
         outState.putString(KEY_DETAIL_NAME, detail.getName());
         outState.putString(KEY_DETAIL_DESCRIPTION, detail.getDescription());
-
+        outState.putString(KEY_DETAIL_LINK, detail.getLink());
     }
 
     /**
@@ -64,13 +80,17 @@ public class ViewDetails extends AppCompatActivity {
      * @param detail
      */
     private void displayDetails(Detail detail) {
-        // display the task name
-        TextView tv_viewTaskName = findViewById(R.id.lblMediaTitle);
-        tv_viewTaskName.setText(detail.getName());
+        // display the name
+        TextView name = findViewById(R.id.lblMediaTitle);
+        name.setText(detail.getName());
 
-        // display the task description
-        TextView tv_viewTaskDescription = findViewById(R.id.lblMediaDescription);
-        tv_viewTaskDescription.setText(detail.getDescription());
+        // display the description
+        TextView description = findViewById(R.id.lblMediaDescription);
+        description.setText(detail.getDescription());
+
+        // display the Link
+        TextView link = findViewById(R.id.lblMediaLink);
+        link.setText(detail.getLink());
 
         }
 
@@ -98,5 +118,24 @@ public class ViewDetails extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.btnDeleteNote) {
+            //log for testing
+            Log.d(TAG, "onClick: btnDelete was pressed");
+            //getting database
+            DetailDatabase db = DetailDatabase.getDatabase(getApplicationContext());
+            //getting DAO
+            DetailDAO detailDAO = db.detailDAO();
+            //delete entry
+            Log.d(TAG, String.valueOf(detail));
+            detailDAO.deleteByName(detail.getName());
+            //informing user
+            Toast.makeText(getApplicationContext(), detail.getName() + " was deleted", Toast.LENGTH_LONG).show();
+        }else if (v.getId() == R.id.btnEditNote) {
+
+        }
     }
 }

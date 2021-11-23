@@ -66,7 +66,7 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener{
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.btnSaveNote){
-            Navigation.findNavController(getView()).navigate(R.id.action_editNoteFragment_to_viewDetail);
+
         }
     }
 }

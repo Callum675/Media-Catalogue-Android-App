@@ -22,6 +22,7 @@ public class DetailsViewAdapter
     // Names of Extras used for passing data from this Activity in an Intent
     public final static String EXTRA_DETAIL_NAME = "com.example.movieandsongcatalogue.DETAIL_NAME";
     public final static String EXTRA_DETAIL_DESCRIPTION = "com.example.movieandsongcatalogue.DETAIL_DESCRIPTION";
+    public final static String EXTRA_DETAIL_LINK = "com.example.movieandsongcatalogue.DETAIL_LINK";
 
 
     // member variables for the context the adapter is working in
@@ -96,6 +97,7 @@ public class DetailsViewAdapter
                 // Add details of the task to be displayed as extras
                 intent.putExtra(EXTRA_DETAIL_NAME, detail.getName());
                 intent.putExtra(EXTRA_DETAIL_DESCRIPTION, detail.getDescription());
+                intent.putExtra(EXTRA_DETAIL_LINK, detail.getLink());
                 // The following line is ONLY needed when not starting another Activity from an
                 // Activity (we're in TaskRecyclerViewAdapter.java here, not TaskRecyclerViewActivity.java
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
