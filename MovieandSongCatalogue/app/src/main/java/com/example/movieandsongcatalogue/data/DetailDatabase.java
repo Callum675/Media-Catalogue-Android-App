@@ -13,14 +13,12 @@ public abstract class DetailDatabase extends RoomDatabase {
 
     private static DetailDatabase INSTANCE ;
 
-    public static DetailDatabase getDatabase(Context context ){
+    public static DetailDatabase getDatabase(final Context context){
         if (INSTANCE == null) {
             synchronized (DetailDatabase.class){
                 if (INSTANCE == null){
-                    INSTANCE = Room.databaseBuilder(
-                            context.getApplicationContext(),
-                            DetailDatabase.class,
-                            "detail_database")
+                    INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
+                            DetailDatabase.class, "detail_database")
                             //wipes and rebuilds
                             .fallbackToDestructiveMigration()
                             .allowMainThreadQueries()
@@ -31,3 +29,4 @@ public abstract class DetailDatabase extends RoomDatabase {
         return INSTANCE;
     }
 }
+

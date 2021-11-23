@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.movieandsongcatalogue.data.Detail;
+import com.example.movieandsongcatalogue.data.DetailDAO;
+import com.example.movieandsongcatalogue.data.DetailDatabase;
 import com.example.movieandsongcatalogue.data.DetailsRepository;
 
 import java.util.List;
@@ -65,12 +67,16 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
 
         View v = inflater.inflate(R.layout.fragment_home, container, false);
-        // create 100 item list for testing
-        List<Detail> details = DetailsRepository.getRepository(getContext()).getDetail(100);
+        //getting database
+        DetailDatabase db = DetailDatabase.getDatabase(getContext());
+        //getting DAO
+        DetailDAO detailDAO = db.detailDAO();
+        // get data from database
+        List<Detail> details = detailDAO.getAll();
 
         // get the RecyclerView on the UI
         RecyclerView recyclerView = v.findViewById(R.id.rv_DetailsView);
-        // create a new Adapter for the Tasks
+        // create a new Adapter for the Media
         RecyclerView.Adapter adapter = new DetailsViewAdapter(getContext(), details);
         // set the recycler view's adapter
         recyclerView.setAdapter(adapter);

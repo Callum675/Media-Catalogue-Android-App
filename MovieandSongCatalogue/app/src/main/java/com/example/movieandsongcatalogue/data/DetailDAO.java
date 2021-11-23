@@ -12,22 +12,31 @@ import java.util.List;
 @Dao
 public interface DetailDAO {
 
+    //add single
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    public void insert(Detail detail);
+    void insert(Detail detail);
 
+    //add multiple
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    public void insert(List<Detail> detail);
+    void insert(List<Detail> detail);
 
+    //delete single
     @Delete
-    public void delete(Detail detail);
+    void delete(Detail detail);
 
+    //delete by name
+    @Query("DELETE FROM Detail WHERE name = :Name")
+    void deleteByName(String Name);
+
+    //delete multiple
     @Delete
-    public void delete(List<Detail> detail);
+    void delete(List<Detail> detail);
 
-    @Query("SELECT * FROM Detail WHERE name = :name")
-    public List<Detail> findByName(String name);
+    //query based on name of media
+    @Query("SELECT * FROM Detail WHERE name = :Name")
+    List<Detail> findByName(String Name);
 
+    //get all data
     @Query("SELECT * FROM Detail")
     List<Detail> getAll();
-
 }

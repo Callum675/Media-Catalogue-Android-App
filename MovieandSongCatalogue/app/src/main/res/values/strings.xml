@@ -8,6 +8,7 @@
 
     <string name="search_download_error">Error downloading search from API</string>
 
+    <string name="search_add">Add your favorites by heading to the search page</string>
     <string name="search_name">Name: </string>
     <string name="search_description">Description: </string>
     <string name="search_link">link: </string>
@@ -18,6 +19,16 @@
     <string name="note">Note</string>
 
     <string name="nightMode">Night Mode</string>
+    <string name="nightModeEnable">Enable Night Mode</string>
+    <string name="nightModeDisable">Disable Night Mode</string>
+
+    <string name="Note">Note</string>
+    <string name="Note_save">Save Note</string>
+    <string name="NoteEdit">Edit Note</string>
+    <string name="NotePlaceholder">Add a Note</string>
+    <string name="NoteDelete">Delete Favorite</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>

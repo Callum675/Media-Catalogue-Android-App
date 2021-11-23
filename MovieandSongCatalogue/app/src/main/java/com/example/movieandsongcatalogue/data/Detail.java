@@ -42,16 +42,23 @@ public class Detail implements Parcelable {
     public int getUid() { return uid; }
 
     //setters
-    public void setName(String name) { this.name = name; }
+    public void setName(String name) {
+        this.name = name;
+    }
+    public void setDescription(String description) {
+        this.description = description;
+    }
+    public void setLink(String link) {
+        this.link = link;
+    }
+    public void setNote(String note) {
+        this.note = note;
+    }
+    public void setUid(int uid) {
+        this.uid = uid;
+    }
 
-    public void setDescription(String description) { this.description = description; }
-
-    public void setLink(String link) { this.link = link; }
-
-    public void setNote(String note) { this.note = note; }
-
-    public void setUid(int uid) { this.uid = uid; }
-
+    //parcel functions
     @Override
     public int describeContents() {
         return 0;

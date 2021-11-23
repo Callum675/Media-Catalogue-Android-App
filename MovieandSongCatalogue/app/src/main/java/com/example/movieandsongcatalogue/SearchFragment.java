@@ -1,5 +1,6 @@
 package com.example.movieandsongcatalogue;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -27,53 +28,24 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link SearchFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class SearchFragment extends Fragment implements View.OnClickListener {
 
     private static final String TAG = "SearchFragment";
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    //global vars
+    String saveName;
+    String saveDescription;
+    String saveLink;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
     public SearchFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment SearchFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static SearchFragment newInstance(String param1, String param2) {
-        SearchFragment fragment = new SearchFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
@@ -81,14 +53,17 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_search, container, false);
+        //btn search
         Button btnSearch = view.findViewById(R.id.btnSearch);
         btnSearch.setOnClickListener(this);
+        //btn save
+        Button btnSave = view.findViewById(R.id.btnSave);
+        btnSave.setOnClickListener(this);
         return view;
     }
 
     @Override
     public void onClick(View v) {
-        Detail detail = new Detail();
         if (v.getId() == R.id.btnSearch) {
             String searchName = String.valueOf(((TextView)getView().findViewById(R.id.etSearch)).getText());
             if (searchName.matches("")) {
@@ -99,16 +74,20 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
                 Uri uri = Uri.parse("https://kgsearch.googleapis.com/v1/entities:search?");
                 String key = "AIzaSyC_J8waxKsPEFdofdd2FnKBHLY29BMPPcU";
                 String limit = "1";
-                String tmovie = "Movie";
-                String tbook = "Book";
-                String tmusic = "MusicRecording";
+                String movie = "Movie";
+                String book = "Book";
+                String tv = "TVSeries";
+                String music = "MusicRecording";
+                String AMusic = "MusicAlbum";
                 Uri.Builder uriBuilder = uri.buildUpon();
                 uriBuilder.appendQueryParameter("query", searchName);
                 uriBuilder.appendQueryParameter("key", key);
                 uriBuilder.appendQueryParameter("limit", limit);
-                uriBuilder.appendQueryParameter("types", tmovie);
-                uriBuilder.appendQueryParameter("types", tbook);
-                uriBuilder.appendQueryParameter("types", tmusic);
+                uriBuilder.appendQueryParameter("types", movie);
+                uriBuilder.appendQueryParameter("types", book);
+                uriBuilder.appendQueryParameter("types", music);
+                uriBuilder.appendQueryParameter("types",AMusic);
+                uriBuilder.appendQueryParameter("types", tv);
                 //create final uri
                 uri = uriBuilder.build();
 
@@ -135,20 +114,20 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
                                 Log.d(TAG, description);
                                 Log.d(TAG, link);
 
-                                //giving values to search object
-                                detail.setName(name);
-                                detail.setDescription(description);
-                                detail.setLink(link);
+                                //giving values to globals
+                                saveName = name;
+                                saveDescription = description;
+                                saveLink = link;
 
                                 //displaying data
                                 TextView lblResult = (TextView) getView().findViewById(R.id.lblResult);
-                                lblResult.setText(getString(R.string.search_name) + " " + detail.getName());
+                                lblResult.setText(getString(R.string.search_name) + " " + name);
 
                                 TextView lblDescription = (TextView) getView().findViewById(R.id.lblResultDescription);
-                                lblDescription.setText(getString(R.string.search_description) + " " + detail.getDescription());
+                                lblDescription.setText(getString(R.string.search_description) + " " + description);
 
                                 TextView lbllink = (TextView) getView().findViewById(R.id.lblLink);
-                                lbllink.setText(getString(R.string.search_link) + " " + detail.getLink());
+                                lbllink.setText(getString(R.string.search_link) + " " + link);
                             }
                         }catch(JSONException e) {
                             e.printStackTrace();
@@ -167,19 +146,41 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
             }
         }
         else if (v.getId() == R.id.btnSave) {
-            if (detail == null) {
-                Toast.makeText(getActivity().getApplicationContext(), "Your Search is Empty can`t save", Toast.LENGTH_SHORT).show();
+            //log for texting
+            Log.d(TAG, "onClick: btnSave was pressed");
+            //getting database
+            DetailDatabase db = DetailDatabase.getDatabase(getContext());
+            //getting DAO
+            DetailDAO detailDAO = db.detailDAO();
+
+            //giving values to object
+            Detail detail = new Detail();
+            detail.setName(saveName);
+            detail.setDescription(saveDescription);
+            detail.setLink(saveLink);
+            //log for testing
+            Log.d(TAG, String.valueOf(detail));
+
+
+            //storing data
+            //checking if data exists
+
+            if (detailDAO.getAll().contains(saveName)) {
+                //informing user
+                Toast.makeText(getActivity().getApplicationContext(), saveName + "is already saved", Toast.LENGTH_LONG).show();
                 return;
-            } else{
-                //log for texting
-                Log.d(TAG, "onClick: btnSave was pressed");
-                //getting database
-                DetailDatabase db = DetailDatabase.getDatabase(getContext());
-                //getting DAO
-                DetailDAO detailDAO = db.detailDAO();
-                //store detail
-                detailDAO.insert(detail);
             }
+            else if (saveName == null){
+                Toast.makeText(getActivity().getApplicationContext(), "please search before saving", Toast.LENGTH_LONG).show();
+                return;
+            }
+            else {
+                //insert data
+                detailDAO.insert(detail);
+
+                //informing user
+                Toast.makeText(getActivity().getApplicationContext(), saveName + " was saved", Toast.LENGTH_LONG).show();
+           }
         }
     }
 }

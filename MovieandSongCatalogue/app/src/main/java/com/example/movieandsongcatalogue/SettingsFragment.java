@@ -5,6 +5,8 @@ import static android.content.Context.UI_MODE_SERVICE;
 import static androidx.core.content.ContextCompat.getSystemService;
 
 import android.app.UiModeManager;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatDelegate;
@@ -66,17 +68,50 @@ public class SettingsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_settings, container, false);
-        btnNightMode = getView().findViewById(R.id.btnNightMode);
+        btnNightMode = v.findViewById(R.id.btnNightMode);
 
-        btnNightMode.setOnClickListener(
-                new View.OnClickListener() {
+        //saving state
+        Context context = getContext();
+        SharedPreferences sharedPreferences = context.getSharedPreferences("sharedPrefs", context.MODE_PRIVATE);
+        final SharedPreferences.Editor editor = sharedPreferences.edit();
+        final boolean isNightModeOn = sharedPreferences.getBoolean("isNightModeOn", false);
+
+        // When user reopens the app
+        // after applying dark/light mode
+        if (isNightModeOn) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            btnNightMode.setText("Disable Dark Mode");
+        }
+        else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            btnNightMode.setText("Enable Dark Mode");
+        }
+
+        btnNightMode.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view)
                     {
-                        AppCompatDelegate
-                                .setDefaultNightMode(
-                                        AppCompatDelegate
-                                                .MODE_NIGHT_YES);
+                        if (isNightModeOn) {
+                            // if dark mode is on it will turn it off
+                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                            // it will set isDarkModeOn
+                            // boolean to false
+                            editor.putBoolean("isNightModeOn", false);
+                            editor.apply();
+
+                            // change text of Button
+                            btnNightMode.setText(getString(R.string.nightModeEnable));
+                        } else {
+                            // if dark mode is off, it will turn it on
+                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+
+                            // it will set isDarkModeOn to true
+                            editor.putBoolean("isNightModeOn", true);
+                            editor.apply();
+
+                            // change text of Button
+                            btnNightMode.setText(getString(R.string.nightModeDisable));
+                        }
                     }
                 });
         return v;

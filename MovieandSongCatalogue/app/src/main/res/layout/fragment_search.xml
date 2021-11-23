@@ -28,13 +28,13 @@ tools:context=".SearchFragment">
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:gravity="center_horizontal"
+        android:text="Media"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lblSearchTitle"
-        tools:text="Media" />
+        app:layout_constraintTop_toBottomOf="@+id/lblSearchTitle" />
 
     <TextView
         android:id="@+id/lblLink"
@@ -68,11 +68,11 @@ tools:context=".SearchFragment">
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:gravity="center_horizontal"
+        android:text="@string/search_description"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lblResult"
-        tools:text="@string/search_description" />
+        app:layout_constraintTop_toBottomOf="@+id/lblResult" />
 
     <EditText
         android:id="@+id/etSearch"
