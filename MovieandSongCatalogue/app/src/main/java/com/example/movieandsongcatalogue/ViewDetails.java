@@ -7,6 +7,7 @@ import androidx.navigation.Navigation;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.AlarmClock;
 import android.util.Log;
 import android.view.Menu;
@@ -123,7 +124,7 @@ public class ViewDetails extends AppCompatActivity implements View.OnClickListen
     protected void onPause() { super.onPause(); }
 
     @Override
-    protected void onResume() { super.onResume(); }
+    protected void onResume() { super.onResume();}
 
     @Override
     public void onClick(View v) {

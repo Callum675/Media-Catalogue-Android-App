@@ -76,8 +76,7 @@ public class SettingsFragment extends Fragment {
         final SharedPreferences.Editor editor = sharedPreferences.edit();
         final boolean isNightModeOn = sharedPreferences.getBoolean("isNightModeOn", false);
 
-        // When user reopens the app
-        // after applying dark/light mode
+        // When user reopens the app after applying dark/light mode
         if (isNightModeOn) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
             btnNightMode.setText("Disable Dark Mode");

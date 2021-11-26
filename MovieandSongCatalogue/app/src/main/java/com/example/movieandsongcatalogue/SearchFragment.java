@@ -73,6 +73,7 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
             } else {
                 //build uri
                 Uri uri = Uri.parse("https://kgsearch.googleapis.com/v1/entities:search?");
+                //setting parameters
                 String key = "AIzaSyC_J8waxKsPEFdofdd2FnKBHLY29BMPPcU";
                 String limit = "1";
                 String movie = "Movie";
@@ -80,6 +81,7 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
                 String tv = "TVSeries";
                 String music = "MusicRecording";
                 String AMusic = "MusicAlbum";
+                //adding parameters
                 Uri.Builder uriBuilder = uri.buildUpon();
                 uriBuilder.appendQueryParameter("query", searchName);
                 uriBuilder.appendQueryParameter("key", key);
