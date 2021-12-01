@@ -28,6 +28,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+
 
 public class SearchFragment extends Fragment implements View.OnClickListener {
 
@@ -151,6 +154,7 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
         else if (v.getId() == R.id.btnSave) {
             //log for testing
             Log.d(TAG, "onClick: btnSave was pressed");
+            
             //getting database
             DetailDatabase db = DetailDatabase.getDatabase(getContext());
             //getting DAO
@@ -179,10 +183,17 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
                 return;
             }
             else {
-                //insert data
-                detailDAO.insert(detail);
-
-                //informing user
+                //creating executor
+                Executor executor = Executors.newSingleThreadExecutor();
+                executor.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        //insert data into detail database using DAO
+                        detailDAO.insert(detail);
+                    }
+                });
+                
+                //informing user of event
                 Toast.makeText(getActivity().getApplicationContext(), saveName + " was saved", Toast.LENGTH_LONG).show();
            }
         }

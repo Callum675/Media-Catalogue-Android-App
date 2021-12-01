@@ -71,6 +71,7 @@ public class HomeFragment extends Fragment {
         DetailDatabase db = DetailDatabase.getDatabase(getContext());
         //getting DAO
         DetailDAO detailDAO = db.detailDAO();
+        
         // get data from database
         List<Detail> details = detailDAO.getAll();
 

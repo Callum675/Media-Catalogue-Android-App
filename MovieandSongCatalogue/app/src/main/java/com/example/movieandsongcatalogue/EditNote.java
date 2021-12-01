@@ -54,7 +54,7 @@ public class EditNote extends AppCompatActivity implements View.OnClickListener{
         Intent refresh = new Intent(this, MainActivity.class);
         refresh.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         startActivity(refresh);//Start the same Activity
-        finish(); //finish Activity.
+        finish(); //finish current Activity.
     }
 
     @Override

@@ -25,6 +25,8 @@ import com.example.movieandsongcatalogue.data.DetailsRepository;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class ViewDetails extends AppCompatActivity implements View.OnClickListener {
 
@@ -131,22 +133,39 @@ public class ViewDetails extends AppCompatActivity implements View.OnClickListen
         if (v.getId() == R.id.btnDeleteNote) {
             //log for testing
             Log.d(TAG, "onClick: btnDelete was pressed");
+
             //getting database
             DetailDatabase db = DetailDatabase.getDatabase(getApplicationContext());
             //getting DAO
             DetailDAO detailDAO = db.detailDAO();
-            //delete entry
-            Log.d(TAG, String.valueOf(detail));
-            detailDAO.deleteByName(detail.getName());
+
+            //creating executor
+            Executor executor = Executors.newSingleThreadExecutor();
+            executor.execute(new Runnable() {
+                @Override
+                public void run() {
+                    //delete entry in detail database using DAO
+                    Log.d(TAG, String.valueOf(detail)); //logging the value of detail for testing
+                    detailDAO.deleteByName(detail.getName());
+                }
+            });
+
             //informing user
             Toast.makeText(getApplicationContext(), detail.getName() + " was deleted", Toast.LENGTH_LONG).show();
-            //end activity
-            finish();
+
+            //start new main activity
+            Intent refresh = new Intent(this, MainActivity.class);
+            refresh.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+            startActivity(refresh);//Start the same Activity
+            finish(); //finish current Activity.
+
         }else if (v.getId() == R.id.btnEditNote) {
             //navigate to editNote activity
             Intent i = new Intent(getApplicationContext(), EditNote.class);
             i.putExtra(EXTRA_DETAIL_NOTENAME, detail.getName());
             i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            //end current activity
+            finish();
             startActivity(i);
         }
     }
