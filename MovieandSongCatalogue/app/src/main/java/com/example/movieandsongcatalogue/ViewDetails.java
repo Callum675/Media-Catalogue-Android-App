@@ -55,7 +55,7 @@ public class ViewDetails extends AppCompatActivity implements View.OnClickListen
 
         //Check the Intent that launched this Activity
         Intent launcher = getIntent();
-        // Check if there there details of the Task to be displayed?
+        // Check if there are details to be displayed
         if (launcher.hasExtra(DetailsViewAdapter.EXTRA_DETAIL_NAME)) {
             // There are (or at least a task name) so instantiate this.task with those details
             detail = new Detail();
@@ -65,7 +65,7 @@ public class ViewDetails extends AppCompatActivity implements View.OnClickListen
             detail.setNote(launcher.getStringExtra(DetailsViewAdapter.EXTRA_DETAIL_NOTE));
         }
         else if (savedInstanceState != null) {
-                // recreate the task
+                // recreate item
                 detail = new Detail();
                 detail.setName(savedInstanceState.getString(KEY_DETAIL_NAME));
                 detail.setDescription(savedInstanceState.getString(KEY_DETAIL_DESCRIPTION));
@@ -106,6 +106,7 @@ public class ViewDetails extends AppCompatActivity implements View.OnClickListen
         TextView link = findViewById(R.id.lblMediaLink);
         link.setText(detail.getLink());
 
+        //DISPLAY THE NOTE
         TextView note = findViewById(R.id.lblMediaNote);
         note.setText(detail.getNote());
         }
@@ -156,8 +157,8 @@ public class ViewDetails extends AppCompatActivity implements View.OnClickListen
             //start new main activity
             Intent refresh = new Intent(this, MainActivity.class);
             refresh.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-            startActivity(refresh);//Start the same Activity
             finish(); //finish current Activity.
+            startActivity(refresh);//Start the new Activity
 
         }else if (v.getId() == R.id.btnEditNote) {
             //navigate to editNote activity
@@ -165,6 +166,7 @@ public class ViewDetails extends AppCompatActivity implements View.OnClickListen
             i.putExtra(EXTRA_DETAIL_NOTENAME, detail.getName());
             i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             //end current activity
+            finish();
             finish();
             startActivity(i);
         }
