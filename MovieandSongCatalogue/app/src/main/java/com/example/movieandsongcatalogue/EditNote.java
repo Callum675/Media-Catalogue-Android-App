@@ -18,8 +18,6 @@ public class EditNote extends AppCompatActivity implements View.OnClickListener{
 
     private static final String TAG = "EditNote";
 
-
-
     private Detail detail;
 
     @Override
@@ -33,9 +31,7 @@ public class EditNote extends AppCompatActivity implements View.OnClickListener{
 
         //Check the Intent that launched this Activity
         Intent launcher = getIntent();
-        // Check if there there details of the Task to be displayed?
         if (launcher.hasExtra(DetailsViewAdapter.EXTRA_DETAIL_NAME)) {
-            // There are (or at least a task name) so instantiate this.task with those details
             detail = new Detail();
             detail.setName(launcher.getStringExtra(DetailsViewAdapter.EXTRA_DETAIL_NAME));
     } }
